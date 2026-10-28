@@ -26,6 +26,29 @@ def test_add_book():
     assert book.year == 1949
     assert book.read is False
 
+
+@pytest.mark.parametrize(
+    ("query", "expected_titles"),
+    [
+        ("Frank Herbert", ["Dune"]),
+        ("Herbert", ["Dune"]),
+        ("fRaNk hErB", ["Dune"]),
+        ("Ursula Le Guin", []),
+        ("  ", []),
+    ],
+)
+def test_find_by_author_matches_case_insensitive_partial_names(
+    query: str, expected_titles: list[str]
+) -> None:
+    collection = BookCollection()
+    collection.add_book("Dune", "Frank Herbert", 1965)
+    collection.add_book("The Hobbit", "J.R.R. Tolkien", 1937)
+
+    books = collection.find_by_author(query)
+
+    assert [book.title for book in books] == expected_titles
+
+
 def test_mark_book_as_read():
     collection = BookCollection()
     collection.add_book("Dune", "Frank Herbert", 1965)

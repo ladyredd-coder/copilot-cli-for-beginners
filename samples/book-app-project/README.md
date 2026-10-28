@@ -35,6 +35,8 @@ python book_app.py remove
 python book_app.py help
 ```
 
+The `find` command matches partial author names without regard to letter case.
+
 ## Running Tests
 
 ```bash
