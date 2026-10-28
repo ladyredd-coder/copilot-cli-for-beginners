@@ -26,6 +26,28 @@ def test_add_book():
     assert book.year == 1949
     assert book.read is False
 
+
+@pytest.mark.parametrize(
+    ("read_statuses", "expected_titles"),
+    [
+        ([], []),
+        ([True, True], []),
+        ([False], ["Book 1"]),
+        ([True, False, False], ["Book 2", "Book 3"]),
+    ],
+)
+def test_get_unread_books_returns_only_unread_books(
+    read_statuses: list[bool], expected_titles: list[str]
+) -> None:
+    collection = BookCollection()
+    for index, read in enumerate(read_statuses, start=1):
+        book = collection.add_book(f"Book {index}", "Author", 2000)
+        if read:
+            collection.mark_as_read(book.title)
+
+    assert [book.title for book in collection.get_unread_books()] == expected_titles
+
+
 def test_mark_book_as_read():
     collection = BookCollection()
     collection.add_book("Dune", "Frank Herbert", 1965)
