@@ -82,7 +82,7 @@ public class BookCollection
     public List<Book> FindByAuthor(string author)
     {
         return _books
-            .Where(b => b.Author.Equals(author, StringComparison.OrdinalIgnoreCase))
+            .Where(b => b.Author.Contains(author, StringComparison.OrdinalIgnoreCase))
             .ToList();
     }
 }

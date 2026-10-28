@@ -67,4 +67,19 @@ public class BookCollectionTests : IDisposable
         var result = _collection.RemoveBook("Nonexistent Book");
         Assert.False(result);
     }
+
+    [Fact]
+    public void FindByAuthor_ShouldMatchPartialNameCaseInsensitively()
+    {
+        _collection.AddBook("1984", "George Orwell", 1949);
+        _collection.AddBook("Dune", "Frank Herbert", 1965);
+
+        var results = _collection.FindByAuthor("orwell");
+        Assert.Single(results);
+        Assert.Equal("1984", results[0].Title);
+
+        var uppercaseResults = _collection.FindByAuthor("GEORGE");
+        Assert.Single(uppercaseResults);
+        Assert.Equal("1984", uppercaseResults[0].Title);
+    }
 }

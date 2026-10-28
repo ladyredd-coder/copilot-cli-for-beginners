@@ -82,7 +82,8 @@ class BookCollection {
   }
 
   findByAuthor(author) {
-    return this.books.filter((b) => b.author.toLowerCase() === author.toLowerCase());
+    const search = author.toLowerCase();
+    return this.books.filter((b) => b.author.toLowerCase().includes(search));
   }
 }
 

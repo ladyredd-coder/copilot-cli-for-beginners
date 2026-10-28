@@ -26,6 +26,7 @@ def test_add_book():
     assert book.year == 1949
     assert book.read is False
 
+
 def test_mark_book_as_read():
     collection = BookCollection()
     collection.add_book("Dune", "Frank Herbert", 1965)
@@ -34,10 +35,12 @@ def test_mark_book_as_read():
     book = collection.find_book_by_title("Dune")
     assert book.read is True
 
+
 def test_mark_book_as_read_invalid():
     collection = BookCollection()
     result = collection.mark_as_read("Nonexistent Book")
     assert result is False
+
 
 def test_remove_book():
     collection = BookCollection()
@@ -47,7 +50,20 @@ def test_remove_book():
     book = collection.find_book_by_title("The Hobbit")
     assert book is None
 
+
 def test_remove_book_invalid():
     collection = BookCollection()
     result = collection.remove_book("Nonexistent Book")
     assert result is False
+
+
+def test_find_by_author_partial_match():
+    collection = BookCollection()
+    collection.add_book("1984", "George Orwell", 1949)
+    collection.add_book("Dune", "Frank Herbert", 1965)
+
+    matches = collection.find_by_author("orwell")
+    assert [book.title for book in matches] == ["1984"]
+
+    matches = collection.find_by_author("GEORGE")
+    assert [book.title for book in matches] == ["1984"]

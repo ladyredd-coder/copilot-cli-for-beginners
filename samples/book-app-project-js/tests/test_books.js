@@ -55,4 +55,16 @@ describe("BookCollection", () => {
     const result = collection.removeBook("Nonexistent Book");
     assert.equal(result, false);
   });
+
+  it("should match partial author names case-insensitively", () => {
+    const collection = new BookCollection(tempFile);
+    collection.addBook("1984", "George Orwell", 1949);
+    collection.addBook("Dune", "Frank Herbert", 1965);
+
+    const georgeMatches = collection.findByAuthor("GEORGE");
+    assert.deepEqual(georgeMatches.map((book) => book.title), ["1984"]);
+
+    const orwellMatches = collection.findByAuthor("orwell");
+    assert.deepEqual(orwellMatches.map((book) => book.title), ["1984"]);
+  });
 });
