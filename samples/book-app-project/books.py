@@ -68,5 +68,8 @@ class BookCollection:
         return False
 
     def find_by_author(self, author: str) -> List[Book]:
-        """Find all books by a given author."""
-        return [b for b in self.books if b.author.lower() == author.lower()]
+        """Find books whose author contains the search text, ignoring case."""
+        query = author.strip().casefold()
+        if not query:
+            return []
+        return [book for book in self.books if query in book.author.casefold()]
